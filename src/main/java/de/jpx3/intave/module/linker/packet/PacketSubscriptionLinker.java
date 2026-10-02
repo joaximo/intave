@@ -61,6 +61,7 @@ public final class PacketSubscriptionLinker extends Module {
   @Override
   public void enable() {
     this.customInjector = new InjectionService(plugin);
+    this.customInjector.setupRelaySubscriptions(internalPacketListenerMappings::get);
     boolean protocolLib4 = ProtocolLibrary.getPlugin().getDescription().getVersion().startsWith("4");
     IGNORE_CHAT_PACKETS = IGNORE_SCOREBOARD_TEAM_PACKETS = plugin.getConfig().getBoolean("compatibility.ignore-scoreboard-packets", !protocolLib4);
   }

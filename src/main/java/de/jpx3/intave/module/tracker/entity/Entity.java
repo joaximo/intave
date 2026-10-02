@@ -90,6 +90,8 @@ public class Entity {
 
   // experimental stuff
   public int duplicationId;
+  // Spawned by a plugin's own packets (e.g. ModelEngine seats), the server alone decides about mounting
+  public volatile boolean packetOnly;
 
   /**
    * Internal value - do not change

@@ -1363,6 +1363,11 @@ public final class MovementDispatcher extends Module {
     if (System.currentTimeMillis() - punishmentData.timeLastSneakToggleCancel < 2000) {
       cancelable.setCancelled(true);
     }
+    if (movementData.isInVehicle() && movementData.vehicle().packetOnly) {
+      // Shift is plugin input here (e.g. sprint), a real dismount arrives as a passenger update
+      movementData.setSneaking(false);
+      return;
+    }
     movementData.activeTick(VEHICLE_EXIT);
     if (movementData.isInVehicle()) {
       movementData.dismountRidingEntity("Sneak exit");

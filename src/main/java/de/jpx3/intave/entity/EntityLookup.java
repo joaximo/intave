@@ -4,6 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import de.jpx3.intave.klass.Lookup;
 import de.jpx3.intave.klass.locate.MethodSearchBySignature;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +44,10 @@ public final class EntityLookup {
   }
 
   private static @Nullable Entity entityById(World world, int identifier) {
+    // Packets sent from netty threads (e.g. ModelEngine) can't touch the world; their entities are packet-only anyway
+    if (!Bukkit.isPrimaryThread()) {
+      return null;
+    }
     try {
       Object serverEntity = entityByIdAccessor.invoke(handleOf(world), identifier);
       if (serverEntity == null) {
